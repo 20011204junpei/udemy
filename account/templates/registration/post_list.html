@@ -1,0 +1,43 @@
+{% extends "registration/base.html" %}
+
+{% block content %}
+
+    <div class="jumbotron">
+        <h1 class="display-3">ブログタイトル</h1>
+        <p class="lead">〇〇に関するブログです。</p>
+        <hr class="my-2">
+      </div>
+      
+      
+      <div class="container">
+        <!-- <div class="row">
+          <div class="col-md-8">
+            
+          </div>
+          <div class="col-md-4">
+            <ul class="list-group">
+              <li class="list-group-item bg-dark text-white">カテゴリ一覧</li>
+              {% for category in category_list %}
+              <li class="list-group-item">          {{ category }}
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div> -->
+        {% for post in post_list %}
+        <div class="card mb-3">
+            <h2 class="card-header bg-dark text-white">{{ post.title}}</h2>
+            <div class="card-body">
+            <p>{{ post.created_at }},{{ post.category }}</p>
+            <a href="#!" class="btn btn-dark">続きを読む</a>
+            </div>
+            <tr>
+              <td>
+              <a href="{% url 'accounts:add' %}">更新</a>
+              </td>
+            </tr>
+        </div>
+        {% endfor %}
+      </div>
+
+{% endblock %}

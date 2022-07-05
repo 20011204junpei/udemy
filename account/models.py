@@ -3,6 +3,8 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core.mail import send_mail
 from django.utils import timezone
+from unicodedata import category
+
 
 
 class UserManager(UserManager):
@@ -66,3 +68,22 @@ class User(AbstractBaseUser, PermissionsMixin):
     def email_user(self, subject, message, from_email=None, **kwargs):
         """Send an email to this user."""
         send_mail(subject, message, from_email, [self.email], **kwargs)
+
+class Category(models.Model):
+  #カテゴリ
+  name = models.CharField('カテゴリ',max_length=255)
+  created_at = models.DateTimeField('作成日',default=timezone.now)
+
+  def __str__(self):
+    return self.name
+
+
+class Post(models.Model):
+  #ブログの記事
+  title = models.CharField('タイトル',max_length=255)
+  text = models.TextField('本文')
+  created_at = models.DateTimeField('作成日',default=timezone.now)
+#   category = models.ForeignKey(Category,verbose_name='カテゴリ',on_delete=models.PROTECT)#PstクラスからCategoryクラスを使うための記述
+
+  def __str__(self):
+    return self.title
