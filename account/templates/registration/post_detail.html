@@ -1,0 +1,19 @@
+{% extends "registration/base.html" %}
+
+
+{% block content %}
+<table class="table">
+  <tr>
+    <th>タイトル</th>
+    <th>{{ post.title }}</th>
+  </tr>
+  <tr>
+    <th>本文</th>
+    <th>{{ post.text }}</th>
+  </tr>
+  <p>{{ post.created_at }},{{ post.category }}</p>
+</table>
+{% endblock %}
+
+
+

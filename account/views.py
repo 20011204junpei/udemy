@@ -9,7 +9,7 @@ from django.contrib.auth import (
 from requests import request
 from .forms import UserCreateForm
 
-from .models import Post
+from .models import Article, Post
 from .forms import AddForm
 
 
@@ -32,40 +32,37 @@ class ProfileView(LoginRequiredMixin, generic.View):
         return render(self.request,'registration/profile.html')
 
 class BlogView(generic.ListView):
-    model = Post
+    model = Article
+    paginate_by = 5
 
-    success_url = reverse_lazy('post_list')
     template_name = 'registration/post_list.html'
-
-    # model = 'post_list.html'
+    success_url = reverse_lazy('accounts:post_list')
 
     def get_queryset(self):
         #最新記事を上にするための記述
         return Post.objects.order_by('-created_at')
 
-    # def get(self, request):
-    #     context = {
-    #         'post_list':Post.objects.all(),
-    #     }
-    #     return render(request,'accounts/post_list.html',context)
 
 class AddView(generic.CreateView):
     model = Post
     form_class = AddForm
-    # form_class.save()
     template_name = 'registration/add.html'
     success_url = reverse_lazy('accounts:post_list')
-    # redirect('accounts:post_list')
-
-class Update(LoginRequiredMixin, generic.UpdateView):
+    
+class UpdateArticle(LoginRequiredMixin, generic.UpdateView):
     model = Post
     form_class = AddForm
     template_name = 'registration/add.html'
-    success_url=reverse_lazy('accounts:add')
+    success_url=reverse_lazy('accounts:post_list')
 
-# class Ok(generic.TemplateView):
-#     success_url = reverse_lazy('ok')
-#     template_name = 'top.html'
+class DeleteArticle(LoginRequiredMixin, generic.DeleteView):
+    model = Post
+    template_name = 'registration/post_confirm_delete.html'
+    success_url=reverse_lazy('accounts:post_list')
+
+class DetailArticle(generic.DetailView):
+    model = Post
+    template_name = 'registration/post_detail.html'
         
 class DeleteView(LoginRequiredMixin, generic.View):
 

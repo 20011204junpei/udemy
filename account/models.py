@@ -7,6 +7,7 @@ from unicodedata import category
 
 
 
+
 class UserManager(UserManager):
     def _create_user(self, email, password, **extra_fields):
         email = self.normalize_email(email)
@@ -87,3 +88,6 @@ class Post(models.Model):
 
   def __str__(self):
     return self.title
+
+class Article(models.Model):
+    user = models.OneToOneField(User,primary_key=True,on_delete=models.CASCADE)
